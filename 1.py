@@ -36,7 +36,6 @@ def part2():
     numbers = get_first_and_last_digits(lines, True)
     print(sum(numbers))
 
-
 if __name__ == "__main__":
     part1()
     part2()
