@@ -1,17 +1,20 @@
-def main1():
-    with open("inputs/1.txt", "r") as file:
-        lines = file.readlines()
-
+def get_first_and_last_digits(lines, part2 = False):
     numbers = []
     for line in lines:
-        #print(line)
+        if part2 == True:
+           line = text_to_digit(line)
         digits = []
         for item in line:
             if item.isdigit():
-                #print(item)
                 digits.append(item)
             
         numbers.append(int(digits[0]+digits[-1]))
+    return numbers
+
+def part1():
+    with open("inputs/1.txt", "r") as file:
+        lines = file.readlines()
+    numbers = get_first_and_last_digits(lines)
     print(sum(numbers))
 
 def text_to_digit(line):
@@ -27,24 +30,13 @@ def text_to_digit(line):
     line = line.replace("zero", "ze0ro")
     return line
 
-def main2():
+def part2():
     with open("inputs/1.txt", "r") as file:
         lines = file.readlines()
-
-    numbers = []
-    for line in lines:
-        line = text_to_digit(line)
-        #print(line)
-        digits = []
-        for item in line:
-            if item.isdigit():
-                #print(item)
-                digits.append(item)
-            
-        numbers.append(int(digits[0]+digits[-1]))
+    numbers = get_first_and_last_digits(lines, True)
     print(sum(numbers))
 
 
 if __name__ == "__main__":
-    main1()
-    main2()
+    part1()
+    part2()
