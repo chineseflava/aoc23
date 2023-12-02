@@ -4,7 +4,7 @@ Part 1:
 which games would have been possible if the bag contained 
 only 12 red cubes, 13 green cubes, and 14 blue cubes?
 """
-def part1():
+def main():
     with open("inputs/2.txt", "r") as file:
         lines = file.readlines()
     possible_games = []
@@ -16,11 +16,10 @@ def part1():
         powers.append(game.power)
         
     print(f"Part 1: {sum(possible_games)}")
-    print(sum(powers))
+    print(f"Part 2: {sum(powers)}")
 
 class Game:
     def __init__(self, line, red_lim, green_lim, blue_lim):
-        data = {}
         line = line.rstrip("\n")
         split_line = re.split(": |, |; ", line)
         #print(split_line)
@@ -42,7 +41,6 @@ class Game:
                     is_possible = False
 
                 max_red = amount if amount > max_red else max_red
-
             if "green" in item:
                 amount = int(item[:-6])
                 if amount <= green_lim:
@@ -51,7 +49,6 @@ class Game:
                     is_possible = False
                 
                 max_green = amount if amount > max_green else max_green
-
             if "blue" in item:
                 amount = int(item[:-5])
                 if amount <= blue_lim:
@@ -61,16 +58,9 @@ class Game:
                 
                 max_blue = amount if amount > max_blue else max_blue
 
-
-
         self.number = int(split_line[0][4:])    
         self.is_possible = is_possible
         self.power = max_red*max_green*max_blue
 
-
-
-            
-
-
 if __name__ == "__main__":
-    part1()
+    main()
