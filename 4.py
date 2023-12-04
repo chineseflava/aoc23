@@ -5,8 +5,8 @@ class Card:
         split_line = line.strip("\n").split()
         break_index = split_line.index("|")
         self.name = int(split_line[1][:-1])
-        self.winning_numbers = split_line[2:break_index] #[2:7] #
-        self.numbers = split_line[break_index+1:] #[8:]
+        self.winning_numbers = split_line[2:break_index]
+        self.numbers = split_line[break_index+1:]
         self.score, self.wins = self.get_score()
         self.count = 1
     
@@ -29,7 +29,6 @@ class Card:
         return score, score_count
     
         
-
 def main():
     with open("inputs/4.txt", "r") as file:
         lines = file.readlines()
@@ -37,10 +36,6 @@ def main():
     cards = []
     for line in lines:
         card = Card(line)
-        # print(f"Card {card.name}")
-        # print(card.winning_numbers)
-        # print(card.numbers)
-        # print(f"Score {card.score}\n")
         if card.score:
             scores.append(card.score)
         cards.append(card)
@@ -55,12 +50,8 @@ def main():
                     cards[pos].increment(card.count)
     card_count = 0
     for card in cards:
-        #print(f"Card {card.name}")
-        #print(f"Counts: {card.count}")
         card_count += card.count
     print(f"Answer 2: {card_count}")
-
-        
 
 
 if __name__ == "__main__":
