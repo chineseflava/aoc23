@@ -3,14 +3,15 @@ import re
 class Card:
     def __init__(self, line):
         split_line = line.strip("\n").split()
-        self.name = split_line[1][:-1]
-        self.winning_numbers = split_line[2:12] #[2:7]
-        self.numbers = split_line[13:] #[9:]
-        self.score = self.get_score()
+        break_index = split_line.index("|")
+        self.name = int(split_line[1][:-1])
+        self.winning_numbers = split_line[2:break_index] #[2:7] #
+        self.numbers = split_line[break_index+1:] #[8:]
+        self.score, self.wins = self.get_score()
         self.count = 1
     
-    def increment(self):
-        self.count += 1
+    def increment(self, value):
+        self.count += value
 
     def get_score(self):
         win_set = set()
@@ -25,7 +26,8 @@ class Card:
                 points_card = True
         if points_card:
             score = 2**(score_count-1)
-        return score
+        return score, score_count
+    
         
 
 def main():
@@ -35,10 +37,10 @@ def main():
     cards = []
     for line in lines:
         card = Card(line)
-        print(f"Card {card.name}")
-        print(card.winning_numbers)
-        print(card.numbers)
-        print(f"Score {card.score}\n")
+        # print(f"Card {card.name}")
+        # print(card.winning_numbers)
+        # print(card.numbers)
+        # print(f"Score {card.score}\n")
         if card.score:
             scores.append(card.score)
         cards.append(card)
@@ -46,7 +48,17 @@ def main():
 
     # Part 2
     for card in cards:
-        card = Card(line)
+        if card.score:
+            for i in range(0,card.wins):
+                pos = card.name+i
+                if pos < len(cards):
+                    cards[pos].increment(card.count)
+    card_count = 0
+    for card in cards:
+        #print(f"Card {card.name}")
+        #print(f"Counts: {card.count}")
+        card_count += card.count
+    print(f"Answer 2: {card_count}")
 
         
 
