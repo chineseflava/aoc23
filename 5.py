@@ -34,29 +34,28 @@ def process_input(lines):
 """
 def split_ranges(seeds, map):
     new_seeds = []
+    unedited_seeds = []
     for seed in seeds:
         seed_start = seed[0]
-        seed_end = seed[0]+seed[1]
+        seed_end = seed[1]
         
-        map_dest = map[0]
         map_source = map[1]
-        map_start = map_source
         map_range = map[2]
-        map_end = map_start+map_range
-        map_diff = map[1] - map[0]
+        map_end = map_source+map_range
+        map_diff = map[0] - map[1]
 
         # Determine the order of ranges
-        if seed_start <= map_start:
+        if seed_start <= map_source:
             smaller_range_start, smaller_range_end = seed_start, seed_end
-            larger_range_start, larger_range_end = map_start, map_end
+            larger_range_start, larger_range_end = map_source, map_end
         else:
-            smaller_range_start, smaller_range_end = map_start, map_end
+            smaller_range_start, smaller_range_end = map_source, map_end
             larger_range_start, larger_range_end = seed_start, seed_end
         
         # Check if the ranges overlap
         if smaller_range_end < larger_range_start:
             # No overlap
-            return None
+            return None, None
         
         # Determine the overlap range
         overlap_start = max(smaller_range_start, larger_range_start) + map_diff
@@ -68,9 +67,13 @@ def split_ranges(seeds, map):
         non_overlap2_start = max(larger_range_start, overlap_end + 1)
         non_overlap2_end = larger_range_end
         
-        new_seed = [(overlap_start, overlap_end),(non_overlap1_start, non_overlap1_end), (non_overlap2_start, non_overlap2_end)]
+        new_seed = (overlap_start, overlap_end)
+        unedited_seed = [(non_overlap1_start, non_overlap1_end), (non_overlap2_start, non_overlap2_end)]
         new_seeds.append(new_seed)
-    return new_seeds
+        for item in unedited_seed:
+            unedited_seeds.append(item)
+        #unedited_seeds.append(unedited_seed)
+    return new_seeds, unedited_seeds
                  
 def main():
     with open("inputs/5_test.txt", "r") as file:
@@ -96,12 +99,16 @@ def main():
     print(seeds)
     locations = []
     for map in maps:
+        this_seeds = seeds
+        next_seeds = []
         for item in map:
-            new_seeds = split_ranges(seeds, map)
-            
+            new_seeds, unedited_seeds = split_ranges(this_seeds, item)
             if new_seeds:
-                seeds = new_seeds
-                break
+                next_seeds.append(new_seeds)
+                this_seeds = unedited_seeds
+            
+
+                
             
 
 
