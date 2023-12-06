@@ -1,6 +1,12 @@
 from sympy import *
 import math
 
+def intersects(t,d):
+    h = symbols('h')
+    intersects = solve(int(t)*h-h**2-int(d)-1, h)
+    win_count = floor(intersects[1])-math.ceil(intersects[0])+1
+    return win_count
+
 def main():
     with open("inputs/6.txt", "r") as file:
         lines = file.readlines()
@@ -12,21 +18,16 @@ def main():
     h = symbols('h')
     for t, d in zip(times, distances):
         # Solve t*h-h**2-d-1 = 0
-        intersects = solve(int(t)*h-h**2-int(d)-1, h)
-        win_count = floor(intersects[1])-math.ceil(intersects[0])+1
-        wins *= floor(intersects[1])-math.ceil(intersects[0])+1
+        win_count = intersects (t,d)
+        wins *= win_count
     print(f"Answer 1: {wins}")
 
     # Part 2
-    wins = 1
     # Clump times and distances together.
     t = ''.join(times)
     d = ''.join(distances)
-    intersects = solve(int(t)*h-h**2-int(d)-1, h)
-    win_count = floor(intersects[1])-math.ceil(intersects[0])+1
-    print(win_count)
-    wins *= floor(intersects[1])-math.ceil(intersects[0])+1.
-    print(f"Answer 2: {wins}")
+    win_count = intersects(t,d)
+    print(f"Answer 2: {win_count}")
 
 if __name__ == "__main__":
     main()
