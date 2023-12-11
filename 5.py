@@ -1,3 +1,5 @@
+import sys
+import math
 
 def process_input(lines):
     maps = []
@@ -67,7 +69,7 @@ def source_to_dest(seeds, map):
     return new_seeds, unedited_seeds
                  
 def main():
-    with open("inputs/5_test.txt", "r") as file:
+    with open("inputs/5.txt", "r") as file:
         lines = file.readlines()
     seeds, maps = process_input(lines)
     
@@ -89,17 +91,21 @@ def main():
     seeds = [(left, left + right) for left, right in zip(seeds[::2], seeds[1::2])]
     #print(seeds)
     locations = []
-    next_seeds = []
     for map in maps:
         this_seeds = seeds
         next_seeds = []
         for item in map:
             new_seeds, unedited_seeds = source_to_dest(this_seeds, item)
             if new_seeds:
-                next_seeds.append(new_seeds)
+                for new_seed in new_seeds: next_seeds.append(new_seed)
                 this_seeds = unedited_seeds
-        next_seeds.append(this_seeds)
-    print(next_seeds)
+        this_seeds += next_seeds
+        locations += this_seeds
+    #print(locations)
+    min_loc = sys.maxsize
+    for location in locations:
+        if location[0] < min_loc: min_loc = location[0] 
+    print(min_loc)
         
     # print(locations)
     # print(min(locations))
