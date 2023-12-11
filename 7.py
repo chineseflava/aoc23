@@ -40,7 +40,7 @@ class Hand:
                 return 2, self.sorted_cards.index(2)
         else:
             # High card
-            return 1
+            return 1, None
 
     def compare_hands(self, hand):
         # Start with comparing type
@@ -57,7 +57,7 @@ class Hand:
     
 
 def main():
-    with open("inputs/7_test.txt", "r") as file:
+    with open("inputs/7.txt", "r") as file:
         lines = file.readlines()
     hands = []
     for line in lines:
@@ -65,10 +65,22 @@ def main():
         hands.append(Hand(game))
     ranking = []
     for hand in hands:
-        for idx, rank in enumerate(ranking):
-            if hand.compare_hands(rank) == -1:
-                ranking.insert(idx, hand)
-                break
+        if not ranking:
+            ranking = [hand]
+        else:
+            for idx, rank in enumerate(ranking):
+                # Place before if rank hand is lesser that rank.
+                if not hand.compare_hands(rank):
+                    ranking.insert(idx, hand)
+                    break
+                if idx == len(ranking)-1:
+                    ranking.append(hand)
+                    break
+    print([rank.type for rank in ranking])
+    total_winnings = 0
+    for i, hand in enumerate(ranking):
+        total_winnings += hand.bet*(i+1)
+    print(total_winnings)
 
 
 if __name__ == "__main__":
