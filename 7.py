@@ -53,9 +53,6 @@ class Hand:
         else:
             return False
         
-        
-    
-
 def main():
     with open("inputs/7_test.txt", "r") as file:
         lines = file.readlines()
@@ -65,10 +62,18 @@ def main():
         hands.append(Hand(game))
     ranking = []
     for hand in hands:
-        for idx, rank in enumerate(ranking):
-            if hand.compare_hands(rank) == -1:
-                ranking.insert(idx, hand)
-                break
+        if len(ranking) == 0:
+            ranking.append(hand)
+        else:
+            for idx, rank in enumerate(ranking):
+                if hand.compare_hands(rank) == False:
+                    ranking = ranking[:idx] + [hand] + ranking[idx:]
+                    #ranking.insert(idx, hand)
+                    break
+                if idx == len(ranking)-1:
+                    ranking.append(hand)
+    for rank in ranking:
+        print(rank.cards)
 
 
 if __name__ == "__main__":

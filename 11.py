@@ -20,7 +20,8 @@ def expand_universe(uni):
     
     return uni
 
-def min_dist(uni, source, )
+def min_dist(uni, source, destination):
+    return
 
 def main():
     with open("inputs/11_test.txt", "r") as file:
