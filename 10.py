@@ -1,6 +1,7 @@
 import numpy as np
 
-def traverse
+def traverse(grid, pos):
+    return
 
 def main():
     with open("inputs/10_test.txt", "r") as file:
