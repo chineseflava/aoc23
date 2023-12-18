@@ -42,9 +42,6 @@ def perform_cycle(pl):
         pl = shift_stones(pl)
     return pl
         
-
-
-
 def main():
     with open("inputs/14.txt", "r") as file:
         lines = file.readlines()
